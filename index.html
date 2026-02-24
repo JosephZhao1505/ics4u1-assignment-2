@@ -1,12 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cubic Solver</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubic Solver</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>Cubic Solver</h1>
+  <h2>Welcome to a cubic solver, you will probably find many more that may or may not be much better than this one.
+    Please waste your time here.</h2>
+
+  <div class="calculator-container">
+    <form class="calculator" id="cubicSolverForm">
+      <label for="a-value">a-value:</label>
+      <input type="number" step="any" id="a-value">
+      <label for="b-value">b-value:</label>
+      <input type="number" step="any" id="b-value">
+      <label for="c-value">c-value:</label>
+      <input type="number" step="any" id="c-value">
+      <label for="d-value">d-value:</label>
+      <input type="number" step="any" id="d-value">
+      <input type="submit" value="Calculate">
+    </form>
+
+    <div class="calculator-results" id="results">
+      <label for="root1">Root 1:</label>
+      <input type="text" id="root1" readonly>
+      <label for="root2">Root 2:</label>
+      <input type="text" id="root2" readonly>
+      <label for="root3">Root 3:</label>
+      <input type="text" id="root3" readonly>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
