@@ -19,6 +19,8 @@ form?.addEventListener("submit", (event) => {
   const pDisplay = document.getElementById("pDisplay") as HTMLInputElement;
   const qDisplay = document.getElementById("qDisplay") as HTMLInputElement;
 
+  const realRoots: number[] = [];
+
   if (a === 0) {
     /* Guarding against quadratics and linear equations */
 
@@ -40,11 +42,13 @@ form?.addEventListener("submit", (event) => {
         result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
         result2.value = `Root 2 = ${rootTwo.toFixed(6)}`;
         result3.value = ``;
+        realRoots.push(rootOne, rootTwo)
       } else {
         const rootOne = (-c + Math.sqrt(discriminant)) / (2 * b);
         result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
         result2.value = ``;
         result3.value = ``;
+        realRoots.push(rootOne)
       }
     } else if (c != 0) {
       /* Linear Solver */
@@ -54,6 +58,7 @@ form?.addEventListener("submit", (event) => {
         result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
         result2.value = ``;
         result3.value = ``;
+        realRoots.push(rootOne)
     } else {
       if (d === 0) {
         discriminantDisplay.value = ``;
@@ -95,6 +100,7 @@ form?.addEventListener("submit", (event) => {
       result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
       result2.value = `Root 2 = ${rootTwo.toFixed(6)}`;
       result3.value = `Root 3 = ${rootThree.toFixed(6)}`;
+      realRoots.push(rootOne, rootTwo, rootThree)
     } else {
       const v = Math.cbrt(-q / 2 - Math.sqrt(discriminant));
       const u = Math.cbrt(-q / 2 + Math.sqrt(discriminant));
@@ -111,6 +117,7 @@ form?.addEventListener("submit", (event) => {
         result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
         result2.value = `Root 2 = ${cbrtOfUnity1.toFixed(6)} + ${cbrtOfUnity2.toFixed(6)}i`;
         result3.value = `Root 3 = ${cbrtOfUnity1.toFixed(6)} - ${cbrtOfUnity2.toFixed(6)}i`;
+        realRoots.push(rootOne)
       } else {
         /* Cardano's Method */
 
@@ -118,12 +125,89 @@ form?.addEventListener("submit", (event) => {
           result1.value = `Root 1 = ${(-t).toFixed(6)}`;
           result2.value = `Root 2 = ${(-t).toFixed(6)}`;
           result3.value = `Root 3 = ${(-t).toFixed(6)}`;
+          realRoots.push(-t.toFixed(6))
         } else if (p != 0) {
+            const singleRoot = u + v - t;
+            const doubleRoot = n - t;
           result1.value = `Root 1 = ${(u + v - t).toFixed(6)}`;
-          result2.value = `Double Root 1 = ${(n - t).toFixed(6)}`;
-          result3.value = `Double Root 2 = ${(n - t).toFixed(6)}`;
+          result2.value = `Double Root 1 = ${singleRoot.toFixed(6)}`;
+          result3.value = `Double Root 2 = ${doubleRoot.toFixed(6)}`;
+          realRoots.push(singleRoot, doubleRoot)
         }
       }
     }
   }
+  drawGraph(a, b, c, d, realRoots);
 });
+
+function drawGraph(
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  roots: number[] = []
+) {
+  const canvas = document.getElementById("graph") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+  const scaleX = 30;
+  const scaleY = 30;
+
+  const centerX = width / 2;
+  const centerY = height / 2;
+
+ctx.strokeStyle = "#ddd";
+ctx.lineWidth = 1;
+
+for (let x = centerX % scaleX; x < width; x += scaleX) {
+  ctx.beginPath();
+  ctx.moveTo(x, 0);
+  ctx.lineTo(x, height);
+  ctx.stroke();
+}
+
+for (let y = centerY % scaleY; y < height; y += scaleY) {
+  ctx.beginPath();
+  ctx.moveTo(0, y);
+  ctx.lineTo(width, y);
+  ctx.stroke();
+}
+
+  ctx.beginPath();
+  ctx.moveTo(0, centerY);
+  ctx.lineTo(width, centerY);
+  ctx.moveTo(centerX, 0);
+  ctx.lineTo(centerX, height);
+  ctx.strokeStyle = "black";
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = "blue";
+
+  for (let px = 0; px < width; px++) {
+    const x = (px - centerX) / scaleX;
+    const y = a * x ** 3 + b * x ** 2 + c * x + d;
+    const py = centerY - y * scaleY;
+
+    if (px === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+
+  ctx.stroke();
+
+  ctx.fillStyle = "red";
+  for (const root of roots) {
+    const px = centerX + root * scaleX;
+    const py = centerY;
+
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}

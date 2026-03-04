@@ -1,21 +1,23 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cubic Solver</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body>
-    <h1>Cubic Solver</h1>
-    <h2>
-      Welcome to a cubic solver, you will probably find many more that may or
-      may not be much better than this one. Please waste your time here.
-    </h2>
-    <h1>ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubic Solver</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <div class="calculator-container">
+<body>
+  <h1>Cubic Solver</h1>
+  <h5>
+    Welcome to a cubic solver, you will probably find many more that may or
+    may not be much better than this one. Please waste your time here.
+  </h5>
+  <h2>ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0</h2>
+
+  <div class="calculator-container">
+    <div class="left-col">
       <form class="calculator" id="cubicSolverForm">
         <label for="a-value">a-value:</label>
         <input type="number" step="any" id="a-value" name="a-value" required />
@@ -43,9 +45,10 @@
         <input type="text" id="qDisplay" readonly />
       </div>
     </div>
+    <canvas id="graph" width="700" height="700"></canvas>
+  </div>
 
-    <canvas id="graph" width="800" height="800"></canvas>
+  <script type="module" src="script.ts"></script>
+</body>
 
-    <script type="module" src="script.ts"></script>
-  </body>
 </html>
