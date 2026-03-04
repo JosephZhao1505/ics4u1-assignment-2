@@ -1,45 +1,51 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cubic Solver</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cubic Solver</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <body>
+    <h1>Cubic Solver</h1>
+    <h2>
+      Welcome to a cubic solver, you will probably find many more that may or
+      may not be much better than this one. Please waste your time here.
+    </h2>
+    <h1>ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0</h1>
 
-<body>
+    <div class="calculator-container">
+      <form class="calculator" id="cubicSolverForm">
+        <label for="a-value">a-value:</label>
+        <input type="number" step="any" id="a-value" name="a-value" required />
+        <label for="b-value">b-value:</label>
+        <input type="number" step="any" id="b-value" name="b-value" required />
+        <label for="c-value">c-value:</label>
+        <input type="number" step="any" id="c-value" name="c-value" required />
+        <label for="d-value">d-value:</label>
+        <input type="number" step="any" id="d-value" name="d-value" required />
+        <input type="submit" value="Calculate" />
+      </form>
 
-  <h1>Cubic Solver</h1>
-  <h2>Welcome to a cubic solver, you will probably find many more that may or may not be much better than this one.
-    Please waste your time here.</h2>
-
-  <div class="calculator-container">
-    <form class="calculator" id="cubicSolverForm">
-      <label for="a-value">a-value:</label>
-      <input type="number" step="any" id="a-value" name="a-value" required>
-      <label for="b-value">b-value:</label>
-      <input type="number" step="any" id="b-value" name="b-value" required>
-      <label for="c-value">c-value:</label>
-      <input type="number" step="any" id="c-value" name="c-value" required>
-      <label for="d-value">d-value:</label>
-      <input type="number" step="any" id="d-value" name="d-value" required>
-      <input type="submit" value="Calculate">
-    </form>
-
-    <div class="calculator-results" id="results">
-      <label for="result1">Result 1:</label>
-      <input type="text" id="result1" readonly>
-      <label for="result2">Result 2:</label>
-      <input type="text" id="result2" readonly>
-      <label for="result3">Result 3:</label>
-      <input type="text" id="result3" readonly>
-      <label for="discriminant-display">Discriminant:</label>
-      <input type="text" id="discriminant-display" readonly>
+      <div class="calculator-results" id="results">
+        <label for="result1">Result 1:</label>
+        <input type="text" id="result1" readonly />
+        <label for="result2">Result 2:</label>
+        <input type="text" id="result2" readonly />
+        <label for="result3">Result 3:</label>
+        <input type="text" id="result3" readonly />
+        <label for="discriminantDisplay">Discriminant:</label>
+        <input type="text" id="discriminantDisplay" readonly />
+        <label for="pDisplay">p:</label>
+        <input type="text" id="pDisplay" readonly />
+        <label for="qDisplay">q:</label>
+        <input type="text" id="qDisplay" readonly />
+      </div>
     </div>
-  </div>
 
-  <script type="module" src="script.ts"></script>
-</body>
+    <canvas id="graph" width="800" height="800"></canvas>
 
+    <script type="module" src="script.ts"></script>
+  </body>
 </html>
