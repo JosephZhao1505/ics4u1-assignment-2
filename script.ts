@@ -49,16 +49,19 @@ form?.addEventListener("submit", (event) => {
     } else if (c != 0) {
       /* Linear Solver */
 
+        discriminantDisplay.value = ``;
         const rootOne = -d / c;
         result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
         result2.value = ``;
         result3.value = ``;
     } else {
       if (d === 0) {
+        discriminantDisplay.value = ``;
         result1.value = "Infinite solutions";
         result2.value = "Infinite solutions";
         result3.value = "Infinite solutions";
       } else {
+        discriminantDisplay.value = ``;
         result1.value = "No solutions";
         result2.value = "No solutions";
         result3.value = "No solutions";
@@ -72,9 +75,9 @@ form?.addEventListener("submit", (event) => {
       (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
     const t = b / (3 * a);
     const discriminant = (q / 2) ** 2 + (p / 3) ** 3;
-    discriminantDisplay.value = `${discriminant}`;
-    pDisplay.value = `${p}`;
-    qDisplay.value = `${q}`;
+    discriminantDisplay.value = `${discriminant.toFixed(6)}`;
+    pDisplay.value = `${p.toFixed(6)}`;
+    qDisplay.value = `${q.toFixed(6)}`;
 
     if (discriminant < 0) {
       /* Trigonometric Method */
