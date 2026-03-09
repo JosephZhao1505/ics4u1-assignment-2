@@ -1,5 +1,14 @@
 const form = document.getElementById("cubicSolverForm") as HTMLFormElement;
 
+const result1 = document.getElementById("result1") as HTMLInputElement;
+const result2 = document.getElementById("result2") as HTMLInputElement;
+const result3 = document.getElementById("result3") as HTMLInputElement;
+const discriminantDisplay = document.getElementById(
+  "discriminantDisplay",
+) as HTMLInputElement;
+const pDisplay = document.getElementById("pDisplay") as HTMLInputElement;
+const qDisplay = document.getElementById("qDisplay") as HTMLInputElement;
+
 form?.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -10,24 +19,26 @@ form?.addEventListener("submit", (event) => {
   const c: number = Number(formData.get("c-value"));
   const d: number = Number(formData.get("d-value"));
 
-  const result1 = document.getElementById("result1") as HTMLInputElement;
-  const result2 = document.getElementById("result2") as HTMLInputElement;
-  const result3 = document.getElementById("result3") as HTMLInputElement;
-  const discriminantDisplay = document.getElementById(
-    "discriminantDisplay",
-  ) as HTMLInputElement;
-  const pDisplay = document.getElementById("pDisplay") as HTMLInputElement;
-  const qDisplay = document.getElementById("qDisplay") as HTMLInputElement;
+  function equation(): string {
+    let equation: string = '';
+
+    equation += a + 'x³';
+    equation += (b === 0 ? '' : (b > 0 ? ' + ' + b : ' - ' + Math.abs(b)) + 'x²');
+    equation += (c === 0 ? '' : (c > 0 ? ' + ' + c : ' - ' + Math.abs(c)) + 'x');
+    equation += (d === 0 ? '' : (d > 0 ? ' + ' + d : ' - ' + Math.abs(d))) + ' = 0';
+
+    return equation;
+  }
+
+  (document.getElementById("equation") as HTMLParagraphElement).textContent = equation();
 
   const realRoots: number[] = [];
 
-  if (a === 0) {
-    /* Guarding against quadratics and linear equations */
+  if (a === 0) { /* Guarding against quadratics and linear equations */
 
     pDisplay.value = ``;
     qDisplay.value = ``;
-    if (b != 0) {
-      /* Quadratic solver */
+    if (b != 0) { /* Quadratic solver */
 
       const discriminant = c * c - 4 * b * d;
       discriminantDisplay.value = `${discriminant}`;
@@ -50,15 +61,14 @@ form?.addEventListener("submit", (event) => {
         result3.value = ``;
         realRoots.push(rootOne)
       }
-    } else if (c != 0) {
-      /* Linear Solver */
+    } else if (c != 0) { /* Linear Solver */
 
-        discriminantDisplay.value = ``;
-        const rootOne = -d / c;
-        result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
-        result2.value = ``;
-        result3.value = ``;
-        realRoots.push(rootOne)
+      discriminantDisplay.value = ``;
+      const rootOne = -d / c;
+      result1.value = `Root 1 = ${rootOne.toFixed(6)}`;
+      result2.value = ``;
+      result3.value = ``;
+      realRoots.push(rootOne)
     } else {
       if (d === 0) {
         discriminantDisplay.value = ``;
@@ -72,8 +82,7 @@ form?.addEventListener("submit", (event) => {
         result3.value = "No solutions";
       }
     }
-  } else {
-    /* Cubic solver */
+  } else { /* Cubic solver */
 
     const p = (3 * a * c - b * b) / (3 * a * a);
     const q =
@@ -84,8 +93,7 @@ form?.addEventListener("submit", (event) => {
     pDisplay.value = `${p.toFixed(6)}`;
     qDisplay.value = `${q.toFixed(6)}`;
 
-    if (discriminant < 0) {
-      /* Trigonometric Method */
+    if (discriminant < 0) { /* Trigonometric Method */
 
       const acosX = -q / (2 * Math.sqrt(-((p / 3) ** 3)));
       const limiter = Math.max(-1, Math.min(1, acosX));
@@ -107,8 +115,7 @@ form?.addEventListener("submit", (event) => {
       const n = -((u + v) / 2);
       const m = (Math.sqrt(3) * (u - v)) / 2;
 
-      if (discriminant > 0) {
-        /* Cardano's method */
+      if (discriminant > 0) { /* Cardano's method */
 
         const rootOne = u + v - t;
         const cbrtOfUnity1 = n - t;
@@ -118,8 +125,7 @@ form?.addEventListener("submit", (event) => {
         result2.value = `Root 2 = ${cbrtOfUnity1.toFixed(6)} + ${cbrtOfUnity2.toFixed(6)}i`;
         result3.value = `Root 3 = ${cbrtOfUnity1.toFixed(6)} - ${cbrtOfUnity2.toFixed(6)}i`;
         realRoots.push(rootOne)
-      } else {
-        /* Cardano's Method */
+      } else { /* Cardano's Method */
 
         if (p === 0 && q === 0) {
           result1.value = `Root 1 = ${(-t).toFixed(6)}`;
@@ -127,8 +133,8 @@ form?.addEventListener("submit", (event) => {
           result3.value = `Root 3 = ${(-t).toFixed(6)}`;
           realRoots.push(-t.toFixed(6))
         } else if (p != 0) {
-            const singleRoot = u + v - t;
-            const doubleRoot = n - t;
+          const singleRoot = u + v - t;
+          const doubleRoot = n - t;
           result1.value = `Root 1 = ${(u + v - t).toFixed(6)}`;
           result2.value = `Double Root 1 = ${singleRoot.toFixed(6)}`;
           result3.value = `Double Root 2 = ${doubleRoot.toFixed(6)}`;
@@ -156,28 +162,27 @@ function drawGraph(
 
   ctx.clearRect(0, 0, width, height);
 
-  const scaleX = 30;
-  const scaleY = 30;
+  const scale = 25;
 
   const centerX = width / 2;
   const centerY = height / 2;
 
-ctx.strokeStyle = "#ddd";
-ctx.lineWidth = 1;
+  ctx.strokeStyle = "#ddd";
+  ctx.lineWidth = 1;
 
-for (let x = centerX % scaleX; x < width; x += scaleX) {
-  ctx.beginPath();
-  ctx.moveTo(x, 0);
-  ctx.lineTo(x, height);
-  ctx.stroke();
-}
+  for (let x = 0; x <= width; x += scale) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
 
-for (let y = centerY % scaleY; y < height; y += scaleY) {
-  ctx.beginPath();
-  ctx.moveTo(0, y);
-  ctx.lineTo(width, y);
-  ctx.stroke();
-}
+  for (let y = 0; y <= height; y += scale) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
 
   ctx.beginPath();
   ctx.moveTo(0, centerY);
@@ -191,9 +196,9 @@ for (let y = centerY % scaleY; y < height; y += scaleY) {
   ctx.strokeStyle = "blue";
 
   for (let px = 0; px < width; px++) {
-    const x = (px - centerX) / scaleX;
+    const x = (px - centerX) / scale;
     const y = a * x ** 3 + b * x ** 2 + c * x + d;
-    const py = centerY - y * scaleY;
+    const py = centerY - y * scale;
 
     if (px === 0) ctx.moveTo(px, py);
     else ctx.lineTo(px, py);
@@ -203,7 +208,7 @@ for (let y = centerY % scaleY; y < height; y += scaleY) {
 
   ctx.fillStyle = "red";
   for (const root of roots) {
-    const px = centerX + root * scaleX;
+    const px = centerX + root * scale;
     const py = centerY;
 
     ctx.beginPath();
