@@ -41,7 +41,7 @@ form?.addEventListener("submit", (event) => {
     if (b != 0) { /* Quadratic solver */
 
       const discriminant = c * c - 4 * b * d;
-      discriminantDisplay.value = `${discriminant}`;
+      discriminantDisplay.value = `${discriminant.toFixed(6)}`;
 
       if (discriminant < 0) {
         result1.value = "No Roots";
@@ -136,7 +136,7 @@ form?.addEventListener("submit", (event) => {
           const singleRoot = u + v - t;
           const doubleRoot = n - t;
           result1.value = `Root 1 = ${(u + v - t).toFixed(6)}`;
-          result2.value = `Double Root 1 = ${singleRoot.toFixed(6)}`;
+          result2.value = `Double Root 1 = ${doubleRoot.toFixed(6)}`;
           result3.value = `Double Root 2 = ${doubleRoot.toFixed(6)}`;
           realRoots.push(singleRoot, doubleRoot)
         }
