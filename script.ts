@@ -22,13 +22,13 @@ form?.addEventListener("submit", (event) => {
   function equation(): string {
     let equation: string = '';
 
-    equation += a + 'x³';
-    equation += (b === 0 ? '' : (b > 0 ? ' + ' + b : ' - ' + Math.abs(b)) + 'x²');
-    equation += (c === 0 ? '' : (c > 0 ? ' + ' + c : ' - ' + Math.abs(c)) + 'x');
+    equation += (a > 0 ? (a === 1 ? '' : a) : (Math.abs(a) === 1 ? '-' : a)) + 'x³';
+    equation += (b === 0 ? '' : (b > 0 ? ' + ' + (b === 1 ? '' : b) : ' - ' + (Math.abs(b) === 1 ? '' : Math.abs(b))) + 'x²');
+    equation += (c === 0 ? '' : (c > 0 ? ' + ' + (c === 1 ? '' : c) : ' - ' + (Math.abs(c) === 1 ? '' : Math.abs(c))) + 'x');
     equation += (d === 0 ? '' : (d > 0 ? ' + ' + d : ' - ' + Math.abs(d))) + ' = 0';
 
     return equation;
-  }
+}
 
   (document.getElementById("equation") as HTMLParagraphElement).textContent = equation();
 
@@ -85,10 +85,9 @@ form?.addEventListener("submit", (event) => {
   } else { /* Cubic solver */
 
     const p = (3 * a * c - b * b) / (3 * a * a);
-    const q =
-      (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
+    const q = (27 * a * a * d - 9 * a * b * c + 2 * b * b * b) / (27 * a * a * a);
     const t = b / (3 * a);
-    const discriminant = (q / 2) ** 2 + (p / 3) ** 3;
+    const discriminant = (q / 2) * (q / 2)  + (p / 3) * (p / 3) * (p / 3);
     discriminantDisplay.value = `${discriminant.toFixed(6)}`;
     pDisplay.value = `${p.toFixed(6)}`;
     qDisplay.value = `${q.toFixed(6)}`;
